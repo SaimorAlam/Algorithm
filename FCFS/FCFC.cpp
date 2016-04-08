@@ -37,6 +37,7 @@ int main()
         cout<<"How many process ?\n";
         cin>>pr;
         vector<type_a> in,gantt;
+        vector<type_b>wt,trt;
         cout<<"Process It's arrival time and Burst time:\n";
         ///Inputting Data
         lop(i,0,pr){
@@ -47,35 +48,24 @@ int main()
             in.push_back(nod_a);
         }
         sort(in.begin(),in.end(),cmp);
-        /// GANTT Chart 0 index
-        nod_a.s=in[0].s;
-        nod_a.a=in[0].a;
-        nod_a.b=in[0].a+in[0].b;
-        gantt.push_back(nod_a);
-        /// Waiting Time 0 index
-        vector<type_b>wt,trt;
-        nod_b.s=in[0].s;
-        nod_b.b=in[0].a-in[0].a;
-        wt.push_back(nod_b);
-        /// AVERAGE Waiting Time  Initialization
-        avgwt=wt[0].b;
-        ///Turn Around Time 0 index
-        nod_b.s=in[0].s;
-        nod_b.b=gantt[0].b-in[0].a;
-        trt.push_back(nod_b);
-        ///Turn Around time Initialization
-        avgtrt=trt[0].b;
-        lop(i,1,pr){
-            /// GANTT Chart Ith index
-            nod_a.s=in[i].s;
-            nod_a.a=gantt[i-1].b;
-            nod_a.b=gantt[i-1].b+in[i].b;
-            gantt.push_back(nod_a);
-            /// Waiting Time Ith index
+        lop(i,0,pr){
+            /// GANTT Chart
+            if(i==0){
+                nod_a.s=in[0].s;
+                nod_a.a=in[0].a;
+                nod_a.b=in[0].a+in[0].b;
+                gantt.push_back(nod_a);
+            }else{
+                nod_a.s=in[i].s;
+                nod_a.a=gantt[i-1].b;
+                nod_a.b=gantt[i-1].b+in[i].b;
+                gantt.push_back(nod_a);
+            }
+            /// Waiting Time
             nod_b.s=in[i].s;
             nod_b.b=gantt[i].a-in[i].a;
             wt.push_back(nod_b);
-            ///Turn Around Time Ith index
+            /// Turn Around Time
             nod_b.s=in[i].s;
             nod_b.b=gantt[i].b-in[i].a;
             trt.push_back(nod_b);
